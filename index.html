@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Inventory Controller</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">📦 InvenTrack</div>
+      <h1>Product Inventory Controller</h1>
+      <p class="subtitle">OOP-Based Stock & Pricing System</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Add New Product Section -->
+    <section class="card" id="add-section">
+      <h2>➕ Add New Product</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Product ID</label>
+          <input type="text" id="prod-id" placeholder="e.g. P001" />
+        </div>
+        <div class="form-group">
+          <label>Product Name</label>
+          <input type="text" id="prod-name" placeholder="e.g. Laptop" />
+        </div>
+        <div class="form-group">
+          <label>Price (₹)</label>
+          <input type="number" id="prod-price" placeholder="e.g. 45000" min="0"/>
+        </div>
+        <div class="form-group">
+          <label>Stock Quantity</label>
+          <input type="number" id="prod-stock" placeholder="e.g. 50" min="0"/>
+        </div>
+      </div>
+      <button class="btn btn-green" onclick="handleAddProduct()">Add Product</button>
+      <div id="add-msg" class="msg"></div>
+    </section>
+    
+    <!-- Update Stock Section -->
+    <section class="card" id="stock-section">
+      <h2>🔄 Update Stock</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Product ID or Name</label>
+          <input type="text" id="stock-search" placeholder="e.g. P001 or Laptop" />
+        </div>
+        <div class="form-group">
+          <label>Quantity Change (+/-)</label>
+          <input type="number" id="stock-change" placeholder="e.g. 10 or -5" />
+        </div>
+      </div>
+      <button class="btn btn-blue" onclick="handleUpdateStock()">Update Stock</button>
+      <div id="stock-msg" class="msg"></div>
+    </section>
+    
+    <!-- Bulk Price Update Section -->
+    <section class="card" id="price-section">
+      <h2>💰 Bulk Price Update</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Percentage Change (+/-)</label>
+          <input type="number" id="price-percent" placeholder="e.g. 10 for +10%, -5 for -5%" />
+        </div>
+      </div>
+      <button class="btn btn-orange" onclick="handleBulkPrice()">Apply to All Products</button>
+      <div id="price-msg" class="msg"></div>
+    </section>
+
+    <!-- Bulk Stock Update Section -->
+    <section class="card" id="bulk-stock-section">
+      <h2>📦 Bulk Stock Update</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Quantity Change (+/-)</label>
+          <input type="number" id="bulk-stock-qty" placeholder="e.g. +20 or -5" />
+        </div>
+      </div>
+      <button class="btn btn-blue" onclick="handleBulkStock()">Apply to All Products</button>
+      <div id="bulk-stock-msg" class="msg"></div>
+    </section>
+    
+    <!-- Low Stock Alert Section -->
+    <section class="card" id="lowstock-section">
+      <h2>⚠️ Low Stock Alert</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Low Stock Threshold</label>
+          <input type="number" id="threshold" placeholder="e.g. 10" min="0" value="10"/>
+        </div>
+      </div>
+      <button class="btn btn-red" onclick="handleLowStock()">Check Low Stock</button>
+      <div id="lowstock-msg" class="msg"></div>
+      <div id="lowstock-list"></div>
+    </section>
+   
+    <!-- Current Inventory Section -->
+    <section class="card" id="inventory-section">
+      <div class="table-header">
+        <h2>📋 Current Inventory</h2>
+        <div class="search-bar">
+          <input type="text" id="search-input" placeholder="🔍 Search by ID or name..." oninput="handleSearch()" />
+        </div>
+      </div>
+      <div id="table-container">
+        <p class="empty-msg">No products added yet. Add your first product above!</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

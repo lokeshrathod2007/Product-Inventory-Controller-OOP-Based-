@@ -1,0 +1,183 @@
+/* === RESET: Remove default browser margin/padding from every element === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* === CSS VARIABLES: All colours and fonts defined once here === */
+:root {
+  --bg:      #0d0f1a;  /* Main dark background of the page */
+  --surface: #13162a;  /* Input box background */
+  --card:    #181c35;  /* Each section card background */
+  --border:  #252a4a;  /* All border/line colours */
+
+  --accent-green:  #00e5a0;  /* Add Product button + success messages */
+  --accent-blue:   #4f9fff;  /* Update Stock button + input focus glow */
+  --accent-orange: #ff9f43;  /* Bulk Price button */
+  --accent-red:    #ff5f6d;  /* Low stock alerts + error messages */
+
+  --text:       #e8eaf6;  /* Main readable text colour */
+  --text-muted: #7b82b5;  /* Dim labels and placeholders */
+
+  --font-display: 'Syne', sans-serif;       /* Used in headings and buttons */
+  --font-mono:    'Space Mono', monospace;  /* Used in inputs, labels, table */
+}
+
+/* === BODY: Base styles for the entire page === */
+body { background: var(--bg); color: var(--text); font-family: var(--font-display); min-height: 100vh; line-height: 1.6; }
+
+/* === HEADER: The top dark banner with the title === */
+header {
+  background: linear-gradient(135deg, #0d0f1a, #1a1f3c, #0d1628); /* Dark diagonal gradient */
+  border-bottom: 2px solid var(--border); /* Line separating header from content */
+  padding: 40px 20px 32px;
+  text-align: center;
+  position: relative; /* Needed to position the ::before glow */
+  overflow: hidden;   /* Clips the glow so it doesn't spill out */
+}
+
+/* Decorative green radial glow behind the header title */
+header::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: 50%;
+  transform: translateX(-50%); /* Centres the glow horizontally */
+  width: 500px; height: 300px;
+  background: radial-gradient(ellipse, rgba(0,229,160,0.12), transparent 70%);
+  pointer-events: none; /* Glow does not block clicks */
+}
+
+/* Keeps header text above the decorative glow */
+.header-inner { position: relative; z-index: 1; }
+
+/* "📦 InvenTrack" small label above the main heading */
+.logo { font-family: var(--font-mono); font-size: 13px; letter-spacing: 4px; color: var(--accent-green); text-transform: uppercase; margin-bottom: 12px; }
+
+/* Main heading — gradient text (white fading to green) */
+header h1 {
+  font-size: clamp(24px, 5vw, 42px); /* Responsive font size */
+  font-weight: 800;
+  background: linear-gradient(90deg, #fff 30%, var(--accent-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subtitle text below the main heading */
+.subtitle { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); letter-spacing: 2px; margin-top: 8px; }
+
+/* === MAIN LAYOUT: Centres content and stacks cards with gap === */
+main { max-width: 1100px; margin: 0 auto; padding: 40px 20px 60px; display: grid; gap: 24px; }
+
+/* === CARD: Each section box (Add Product, Update Stock, etc.) === */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;  /* Rounded corners */
+  padding: 28px 32px;
+  transition: border-color 0.3s;     /* Smooth border change on hover */
+  animation: fadeUp 0.4s ease both;  /* Slides up on page load */
+}
+.card:hover { border-color: #3a3f6a; } /* Border brightens on hover */
+
+/* Staggered load — each card appears slightly after the previous */
+.card:nth-child(1){animation-delay:.05s} .card:nth-child(2){animation-delay:.10s}
+.card:nth-child(3){animation-delay:.15s} .card:nth-child(4){animation-delay:.20s}
+.card:nth-child(5){animation-delay:.25s}
+
+/* Card slides up from below when page loads */
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+
+/* Section heading inside each card e.g. "➕ Add New Product" */
+.card h2 { font-size: 18px; font-weight: 700; margin-bottom: 22px; }
+
+/* === FORM GRID: Arranges input boxes side by side automatically === */
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+
+/* Label above each input box e.g. "PRODUCT ID" */
+.form-group label { display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
+
+/* The input box itself where user types */
+.form-group input {
+  width: 100%; padding: 12px 16px;
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 10px; color: var(--text);
+  font-family: var(--font-mono); font-size: 14px; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Blue glow on input when user clicks it */
+.form-group input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(79,159,255,0.12); }
+
+/* Hint text shown inside empty input e.g. "e.g. P001" */
+.form-group input::placeholder { color: #3a3f6a; }
+
+/* === BUTTONS: Base style shared by all buttons === */
+.btn { padding: 12px 28px; border: none; border-radius: 10px; font-family: var(--font-display); font-size: 14px; font-weight: 700; cursor: pointer; transition: transform 0.15s, filter 0.2s; }
+.btn:hover { transform: translateY(-2px); filter: brightness(1.1); } /* Lifts up on hover */
+.btn:active { transform: scale(0.97); } /* Presses down on click */
+
+/* Colour variants for each button */
+.btn-green  { background: var(--accent-green);  color: #0a1a12; } /* Add Product */
+.btn-blue   { background: var(--accent-blue);   color: #05101f; } /* Update Stock */
+.btn-orange { background: var(--accent-orange); color: #1a0f00; } /* Bulk Price */
+.btn-red    { background: var(--accent-red);    color: #1a0005; } /* Low Stock Check */
+
+/* === MESSAGE: Success/error text shown after button actions === */
+.msg { margin-top: 14px; font-family: var(--font-mono); font-size: 13px; min-height: 20px; transition: all 0.3s; }
+.msg.success { color: var(--accent-green); } /* Green for success */
+.msg.error   { color: var(--accent-red);   } /* Red for errors */
+.msg.info    { color: var(--accent-blue);  } /* Blue for info */
+
+/* === TABLE HEADER: "📋 Inventory" title + search bar row === */
+.table-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 22px; }
+
+/* Search bar input "🔍 Search by ID or name..." */
+.search-bar input { padding: 10px 16px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text); font-family: var(--font-mono); font-size: 13px; outline: none; min-width: 240px; transition: border-color 0.2s; }
+.search-bar input:focus { border-color: var(--accent-blue); }
+
+/* Shown when no products exist yet */
+.empty-msg { color: var(--text-muted); font-family: var(--font-mono); font-size: 13px; text-align: center; padding: 40px 0; }
+
+/* === TABLE: The inventory table showing all products === */
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+
+/* Column header row (PRODUCT ID, NAME, PRICE, STOCK, STATUS) */
+thead tr { background: var(--surface); }
+thead th { padding: 14px 16px; text-align: left; font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+
+/* Regular product rows */
+tbody tr { border-bottom: 1px solid var(--border); transition: background 0.2s; animation: rowIn 0.3s ease both; }
+
+/* Row slides in from left when table loads/refreshes */
+@keyframes rowIn { from{opacity:0;transform:translateX(-10px)} to{opacity:1;transform:translateX(0)} }
+
+tbody tr:hover { background: rgba(255,255,255,0.03); } /* Subtle hover highlight */
+tbody td { padding: 14px 16px; font-family: var(--font-mono); font-size: 13px; }
+
+/* Low stock row — red background + red left border, added by JavaScript */
+tbody tr.low-stock { background: #2a1a1a; border-left: 3px solid var(--accent-red); }
+
+/* === BADGES: "In Stock" (green) and "Low Stock" (red) pill labels === */
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+.badge-ok  { background: rgba(0,229,160,0.15); color: var(--accent-green); } /* ✅ In Stock */
+.badge-low { background: rgba(255,95,109,0.15); color: var(--accent-red);  } /* ⚠️ Low Stock */
+
+/* === ALERT CARDS: Pulsing red cards shown below Low Stock button === */
+#lowstock-list { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 12px; }
+.alert-card { background: #2a1a1a; border: 1px solid var(--accent-red); border-radius: 10px; padding: 12px 18px; font-family: var(--font-mono); font-size: 13px; animation: pulse 2s infinite; }
+.alert-card strong { color: var(--accent-red); display: block; margin-bottom: 4px; } /* Product name in red */
+
+/* Pulsing red glow animation on alert cards to grab attention */
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,95,109,0)} 50%{box-shadow:0 0 0 6px rgba(255,95,109,0.15)} }
+
+/* === FOOTER: Bottom bar with university info === */
+footer { text-align: center; padding: 24px 20px; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); letter-spacing: 1px; }
+
+/* === RESPONSIVE: Stacks layout vertically on mobile screens (max 600px) === */
+@media (max-width: 600px) {
+  .card { padding: 20px 16px; }                          /* Less padding on mobile */
+  .form-grid { grid-template-columns: 1fr; }             /* Inputs stack vertically */
+  .table-header { flex-direction: column; align-items: flex-start; } /* Title + search stack */
+  thead { display: none; }                               /* Hide column headers on mobile */
+  tbody tr { display: block; margin-bottom: 12px; border: 1px solid var(--border); border-radius: 10px; } /* Each row becomes a card */
+  tbody td { display: flex; justify-content: space-between; padding: 8px 12px; } /* Key-value layout */
+  tbody td::before { content: attr(data-label); color: var(--text-muted); font-size: 11px; } /* Shows label from HTML data-label attribute */
+}
